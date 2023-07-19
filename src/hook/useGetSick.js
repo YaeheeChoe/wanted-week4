@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
-const useGetSick = (searchTerm) => {
+const useGetSick = (searchTerm, expireTime = 300000) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+  const cacheRef = useRef({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -11,17 +12,25 @@ const useGetSick = (searchTerm) => {
         const response = await axios.get(
           `http://localhost:4000/sick?q=${searchTerm}`
         );
-        setData(response.data);
+        const newData = response.data;
+        setData(newData);
+        cacheRef.current[searchTerm] = {
+          data: newData,
+          timestamp: Date.now(),
+        };
       } catch (error) {
         setError(error);
       }
     };
 
-    if (searchTerm.trim() !== "") {
+    const cachedData = cacheRef.current[searchTerm];
+    if (cachedData && Date.now() - cachedData.timestamp < expireTime) {
+      setData(cachedData.data);
+    } else {
       fetchData();
     }
-  }, [searchTerm]);
-  console.log(data);
+  }, [searchTerm, expireTime]);
+
   return { data, error };
 };
 
