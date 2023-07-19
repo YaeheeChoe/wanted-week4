@@ -1,5 +1,33 @@
 import React from "react";
 import useGetSick from "../hook/useGetSick";
+import { FiSearch } from "react-icons/fi";
+import styled from "styled-components";
+
+const TermList = styled.ul`
+  list-style: none;
+  padding: 0;
+`;
+
+const TermItem = styled.li`
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: lightgray;
+  }
+
+  ${({ isSelected }) =>
+    isSelected &&
+    `
+    background-color: lightgray;
+  `}
+`;
+
+const SearchIcon = styled(FiSearch)`
+  margin-right: 8px;
+`;
 
 const RecommendedSearchTerm = ({ searchTerm, onSearchTermSelect }) => {
   const { data, error } = useGetSick(searchTerm);
@@ -29,14 +57,23 @@ const RecommendedSearchTerm = ({ searchTerm, onSearchTermSelect }) => {
 
   return (
     <div>
-      <h3>Recommended Search Terms:</h3>
-      <ul>
+      <TermList>
+        <TermItem isSelected={true}>
+          <SearchIcon />
+
+          <span>{searchTerm}</span>
+        </TermItem>
         {recommendedTerms.map((term, index) => (
-          <li key={index} onClick={() => handleSearchTermSelect(term)}>
-            {term}
-          </li>
+          <TermItem
+            key={index}
+            isSelected={false}
+            onClick={() => handleSearchTermSelect(term)}
+          >
+            <SearchIcon />
+            <span>{term}</span>
+          </TermItem>
         ))}
-      </ul>
+      </TermList>
     </div>
   );
 };
