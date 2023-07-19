@@ -32,6 +32,8 @@ const SearchIcon = styled(FiSearch)`
 const RecommendedSearchTerm = ({ searchTerm, onSearchTermSelect }) => {
   const { data, error } = useGetSick(searchTerm);
 
+  const [selectedTermIndex, setSelectedTermIndex] = useState(0);
+
   const getRecommendedTerms = () => {
     if (error) {
       return [];
@@ -47,17 +49,15 @@ const RecommendedSearchTerm = ({ searchTerm, onSearchTermSelect }) => {
 
   const recommendedTerms = getRecommendedTerms();
 
-  const [selectedTermIndex, setSelectedTermIndex] = useState(0);
-
   useEffect(() => {
     const handleKeyPress = (event) => {
       if (event.key === "ArrowUp" && selectedTermIndex > 0) {
-        setSelectedTermIndex(selectedTermIndex - 1);
+        setSelectedTermIndex((prevIndex) => prevIndex - 1);
       } else if (
         event.key === "ArrowDown" &&
         selectedTermIndex < recommendedTerms.length - 1
       ) {
-        setSelectedTermIndex(selectedTermIndex + 1);
+        setSelectedTermIndex((prevIndex) => prevIndex + 1);
       } else if (event.key === "Enter") {
         const selectedTerm = recommendedTerms[selectedTermIndex];
         onSearchTermSelect(selectedTerm);
@@ -87,17 +87,10 @@ const RecommendedSearchTerm = ({ searchTerm, onSearchTermSelect }) => {
   return (
     <div>
       <TermList>
-        <TermItem
-          isSelected={selectedTermIndex === 0}
-          onClick={() => handleSearchTermSelect(searchTerm)}
-        >
-          <SearchIcon />
-          <span>{searchTerm}</span>
-        </TermItem>
         {recommendedTerms.map((term, index) => (
           <TermItem
             key={index}
-            isSelected={selectedTermIndex === index + 1}
+            isSelected={selectedTermIndex === index}
             onClick={() => handleSearchTermSelect(term)}
           >
             <SearchIcon />
