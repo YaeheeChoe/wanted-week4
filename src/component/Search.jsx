@@ -9,6 +9,9 @@ const Search = () => {
     setSearchTerm(term);
   };
 
+  const handleSearchTermSelect = (selectedTerm) => {
+    setSearchTerm(selectedTerm);
+  };
   const handleSearch = () => {
     // 검색 로직을 수행하고 검색 결과를 처리하는 코드
     console.log(`Searching for: ${searchTerm}`);
@@ -21,7 +24,10 @@ const Search = () => {
         onSearchTermChange={handleSearchTermChange}
         onSearch={handleSearch}
       />
-      <RecommendedSearchTerm searchTerm={searchTerm} />
+      <RecommendedSearchTerm
+        searchTerm={searchTerm}
+        onSearchTermSelect={handleSearchTermSelect}
+      />
     </div>
   );
 };

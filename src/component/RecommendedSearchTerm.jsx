@@ -1,6 +1,6 @@
 import React from "react";
 
-const RecommendedSearchTerm = ({ searchTerm }) => {
+const RecommendedSearchTerm = ({ searchTerm, onSearchTermSelect }) => {
   const getRecommendedTerms = (searchTerm) => {
     if (searchTerm === "") {
       return [];
@@ -18,12 +18,18 @@ const RecommendedSearchTerm = ({ searchTerm }) => {
 
   const recommendedTerms = getRecommendedTerms(searchTerm);
 
+  const handleSearchTermSelect = (selectedTerm) => {
+    onSearchTermSelect(selectedTerm);
+  };
+
   return (
     <div>
       <h3>Recommended Search Terms:</h3>
       <ul>
         {recommendedTerms.map((term, index) => (
-          <li key={index}>{term}</li>
+          <li key={index} onClick={() => handleSearchTermSelect(term)}>
+            {term}
+          </li>
         ))}
       </ul>
     </div>
