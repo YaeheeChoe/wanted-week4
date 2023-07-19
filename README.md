@@ -1,22 +1,30 @@
 # 실행
 
-다음 저장소를 clone후 아래 명령어를 실행해주세요.   
-https://github.com/walking-sunset/assignment-api
+다음의 순서대로 실행해주세요.
+
+```bash
+# 1. 과제 API 코드 클론
+$ git clone https://github.com/walking-sunset/assignment-api
+
+# 2. 과제 API 코드 실행
+$ cd assignment-api && npm install && npm start
+
+# 3. 과제 코드 클론
+$ git clone https://github.com/YaeheeChoe/wanted-week4
+
+# 4. 과제 코드 실행
+$ cd wanted-week4 && npm install && npm start
 ```
-npm install
-npm start
-```
-이 저장소를 clone후 아래 명령어를 실행해주세요.
-```
-npm install
-npm start
-```
+
+<br/>   <!-- 이건 줄바꿈이에용 -->
 
 # 로컬 캐싱 & Expire time 구현
-useGetSick.js
 
-```
-  const useGetSick = (searchTerm, expireTime = 300000) => {
+<!-- 이렇게 하면 js가 먹어용 -->
+```js
+// useGetSick.js
+
+const useGetSick = (searchTerm, expireTime = 300000)  => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const cacheRef = useRef({});
@@ -48,6 +56,4 @@ useGetSick.js
 
   return { data, error };
 };
-
 ```
-
