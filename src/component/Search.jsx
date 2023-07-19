@@ -14,7 +14,8 @@ const Search = () => {
   };
   const handleSearch = () => {
     // 검색 로직을 수행하고 검색 결과를 처리하는 코드
-    console.log(`Searching for: ${searchTerm}`);
+    window.location.href =
+      "https://clinicaltrialskorea.com/studies?conditions=" + searchTerm;
   };
 
   return (
